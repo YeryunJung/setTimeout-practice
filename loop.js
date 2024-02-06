@@ -8,3 +8,17 @@ function startCPUHeavyTaskWithoutOptimization() {
   console.log("[Not Optimized] done!!!", result);
   return result;
 }
+
+function startCPUHeavyTaskWithOptimizationProtoType() {
+  let result = 0;
+  for (let i = 0; i < 3; i++) {
+    setTimeout(() => {
+      for (let j = 0; j < 100000000; j += 1) {
+        result += 1;
+      }
+      console.log("[Optimized Basic] loop", result);
+    });
+  }
+  console.log("[Optimized Basic] done!", result);
+  return result;
+}
