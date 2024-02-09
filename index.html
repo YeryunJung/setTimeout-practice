@@ -9,13 +9,13 @@
     <div>
       <h1>SetTimeout</h1>
       <div>
-        <button onclick="{startCPUHeavyTaskWithoutOptimization}">
+        <button onclick="startCPUHeavyTaskWithoutOptimization()">
           Without Optimization
         </button>
-        <button onclick="startCPUHeavyTaskWithOptimizationProtoType">
+        <button onclick="startCPUHeavyTaskWithOptimizationProtoType()">
           Without Optimization Basic
         </button>
-        <button onclick="startCPUHeavyTaskWithOptimizationPromise">
+        <button onclick="startCPUHeavyTaskWithOptimizationPromise()">
           Without Optimization Basic
         </button>
       </div>
@@ -26,9 +26,9 @@
     <script>
       function startCPUHeavyTaskWithoutOptimization() {
         let result = 0;
-        // 반복문 3만번 돌릴 때까지 페이지는 먹통
-        // 메인 스레드 <= 3만번 출력 / 그 다음 작업
-        for (let i = 0; i < 30000; i++) {
+        // 반복문 30만번 돌릴 때까지 페이지는 먹통
+        // 메인 스레드 <= 30만번 출력 / 그 다음 작업
+        for (let i = 0; i < 3000000000; i++) {
           result += 1;
         }
         console.log("[Not Optimized] done!!!", result);
@@ -37,9 +37,10 @@
 
       function startCPUHeavyTaskWithOptimizationProtoType() {
         let result = 0;
+        // 반복문을 분할해서 한번에 30억번이 아니라 10억번씩 3번
         for (let i = 0; i < 3; i++) {
           setTimeout(() => {
-            for (let j = 0; j < 10000; j += 1) {
+            for (let j = 0; j < 1000000000; j += 1) {
               result += 1;
             }
             console.log("[Optimized Basic] loop", result);
@@ -54,7 +55,7 @@
         for (let i = 0; i < 3; i++) {
           await new Promise((res) => {
             setTimeout(() => {
-              for (let j = 0; j < 10000; j++) {
+              for (let j = 0; j < 1000000000; j++) {
                 result += 1;
               }
               console.log("[Optimized Promise] loop", result);
